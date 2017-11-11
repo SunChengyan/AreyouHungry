@@ -14,7 +14,7 @@
         <li v-for="(item,index) in goods" :key="index" class="food-list food-list-hook">
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li v-for="(food, index) in item.foods" class="food-item" :key="index">
+            <li @click="selectFood(food)" v-for="(food, index) in item.foods" class="food-item" :key="index">
               <div class="icon">
                 <img :src="food.icon" alt="" width="57" height="57">
               </div>
@@ -30,7 +30,7 @@
                   <span v-show="food.oldPrice" class="old">{{food.oldPrice}}</span>
                 </div>
                 <div class="cartcontrol-wrapper">
-                  <Cartcontrol :food="food"></Cartcontrol>
+                  <Cartcontrol :food="food" ref="food"></Cartcontrol>
                 </div>
               </div>
               
@@ -40,6 +40,9 @@
       </ul>
     </div>
     <Shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></Shopcart>
+    <div>
+      <Food :food="selectfood" ref="Food"></Food>
+    </div>
   </div>
 </template>
 
@@ -47,6 +50,7 @@
   import BScroll from 'better-scroll'
   import Shopcart from '../shopcart/shopcart.vue' // 引用组件
   import Cartcontrol from '../cartcontrol/cartcontrol.vue'
+  import Food from '../food/food.vue'
   let ERR_OK = 0
   export default {
     props: {
@@ -58,7 +62,8 @@
       return {
         goods: [],
         listHeight: [],
-        scrollY: 0
+        scrollY: 0,
+        selectfood: {}
       }
     },
     computed: {
@@ -137,11 +142,17 @@
         let foodList = this.$refs.foodWrapper.getElementsByClassName('food-list-hook')
         let el = foodList[index]
         this.foodsScroll.scrollToElement(el, 300) // 将得到的节点进行转移---使用scrollToElement，然后进行跳转到某个节点
+      },
+      selectFood (food) {
+        this.selectfood = food
+        this.$refs.Food.show()
+        console.log(this.selectfood)
       }
     },
     components: {
       Shopcart,
-      Cartcontrol
+      Cartcontrol,
+      Food
     }
   }
 </script>

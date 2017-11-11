@@ -1,11 +1,11 @@
 <template>
   <div class="cartcontrol">
-    <div class="cart-decrease" v-show="food.count > 0" @click="decreaseCart()" transition="move">
+    <div class="cart-decrease" v-show="food.count > 0" @click.stop.prevent="decreaseCart()" transition="move">
       <i class="icon iconfont icon-jianshao" ></i>
     </div>
     <div class="cart-count" v-show="food.count > 0">{{food.count}}</div>
-    <div class="cart-add" @click="addCart()">
-      <i class="icon iconfont icon-tianjia1"></i>
+    <div class="cart-add" @click.stop.prevent="addCart()">
+      <i class="icon iconfont icon-tianjia"></i>
     </div>
   </div>
 </template>
@@ -69,7 +69,7 @@
 .icon-jianshao {
   font-size: 20px;
 }
-.icon-tianjia1 {
+.icon-tianjia {
   font-size: 20px;
 }
 </style>
