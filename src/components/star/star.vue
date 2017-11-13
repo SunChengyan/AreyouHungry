@@ -1,10 +1,10 @@
 <template>
-  <div class="star" :class="starType">
-    <span v-for="(index, imgitem) in integerStar" v-bind:key="index" class="integerClass imgstar">
+  <div class="star">
+    <span :class="starType" v-for="(index, imgitem) in integerStar" v-bind:key="index" class="integerClass imgstar">
     </span>
-    <span v-if="decimalStar" class="halfStar imgstar">
+    <span :class="starType" v-if="decimalStar" class="halfStar imgstar">
     </span>
-    <span v-else class="offStar imgstar" v-for="(index1, imgitem) in 5-integerStar">
+    <span :class="starType" v-else class="offStar imgstar" v-for="(index1, imgitem) in 5-integerStar" :key="imgitem">
     </span>
   </div>
 </template>
@@ -25,6 +25,14 @@
         decimalStar: false,
         imgStar: []
       }
+    },
+    created () {
+      this.integerStar = parseInt(this.score)
+      this.decimalStar = this.score - this.integerStar < 0.5 ? this.decimalStar : !this.decimalStar
+    },
+    updated () {
+      this.integerStar = parseInt(this.score)
+      this.decimalStar = this.score - this.integerStar < 0.5 ? this.decimalStar : !this.decimalStar
     },
     computed: {
       starType () {
@@ -53,11 +61,21 @@
   }
   .integerClass {
     background-image: url('../../../resource/img/star24_on@2x.png');
+    background-repeat: no-repeat;
   }
   .halfStar {
     background-image: url('../../../resource/img/star24_half@2x.png');
+    background-repeat: no-repeat;
   }
   .offStar {
     background-image: url('../../../resource/img/star24_off@2x.png');
+    background-repeat: no-repeat;
+  }
+  .star-36{
+    width: 12px;
+    height: 12px;
+    margin-left: 2px;
+    margin-right: 2px;
+    background-size: 12px;
   }
 </style>
